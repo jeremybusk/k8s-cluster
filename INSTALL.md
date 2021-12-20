@@ -47,3 +47,9 @@ kubectl delete -f https://raw.githubusercontent.com/jeremybusk/k8s-cluster/main/
 ```
 lxc config set $host limits.cpu=8 limits.memory=16GB
 ```
+
+Show pods with claims
+```
+kubectl get pods --all-namespaces -o=json | jq -c \
+'.items[] | {name: .metadata.name, namespace: .metadata.namespace, claimName:.spec.volumes[] | select( has ("persistentVolumeClaim") ).persistentVolumeClaim.claimName }'
+```
