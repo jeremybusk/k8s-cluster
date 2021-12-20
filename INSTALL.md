@@ -1,4 +1,4 @@
-On LXD for learning
+On LXD & using Microk8s for learning
 
 Create dataset in exsting pool
 ```
@@ -23,8 +23,11 @@ zpool create zfspv-pool /dev/sdb
 
 Create ZZFS driver and stroage class
 ```
-kubectl apply -f https://openebs.github.io/charts/zfs-operator.yaml
+curl -LO https://openebs.github.io/charts/zfs-operator.yaml && \
+  sed -i 's/\/var\/lib\/kubelet\//\/var\/snap\/microk8s\/common\/var\/lib\/kubelet\//g' zfs-operator.yaml && \
+  kubectl apply -f zfs-operator.yaml
 kubectl apply -f https://raw.githubusercontent.com/jeremybusk/k8s-cluster/main/zfs-sc.yaml
+kubectl apply -f https://raw.githubusercontent.com/jeremybusk/k8s-cluster/main/test-zfs-pod.yaml
 ```
 
 
