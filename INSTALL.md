@@ -27,7 +27,18 @@ curl -LO https://openebs.github.io/charts/zfs-operator.yaml && \
   sed -i 's/\/var\/lib\/kubelet\//\/var\/snap\/microk8s\/common\/var\/lib\/kubelet\//g' zfs-operator.yaml && \
   kubectl apply -f zfs-operator.yaml
 kubectl apply -f https://raw.githubusercontent.com/jeremybusk/k8s-cluster/main/zfs-sc.yaml
+```
+
+Create PVC & Pod and do some testing
+```
+kubectl apply -f https://raw.githubusercontent.com/jeremybusk/k8s-cluster/main/pvc.yaml
 kubectl apply -f https://raw.githubusercontent.com/jeremybusk/k8s-cluster/main/test-zfs-pod.yaml
+kubectl get pod fio
+kubectl exec -it fio -- sh
+ubectl exec -it fio -- sh -c "echo test | tee -a /datadir/test.txt"
+kubectl exec -it fio -- sh -c "cat /datadir/test.txt"
+kubectl delete -f https://raw.githubusercontent.com/jeremybusk/k8s-cluster/main/test-zfs-pod.yaml
+kubectl delete -f https://raw.githubusercontent.com/jeremybusk/k8s-cluster/main/pvc.yaml
 ```
 
 
